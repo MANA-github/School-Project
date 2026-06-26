@@ -1,184 +1,373 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-
 <head>
-    <meta charset="UTF-8">
-    <title>むらつなぎ</title>
-
-    <link rel="stylesheet" href="/static/css/style.css">
-
-    <!-- Tabler Icons -->
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>むらつなぎ</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.35.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
 </head>
-
 <body>
+<div class="toast-wrap">
+<div class="app">
 
-    <div class="wrapper">
-        <div class="app">
+  <div class="topbar">
+    <span class="topbar-title">むらつなぎ</span>
+    <div class="village-pill"><span class="vdot"></span>猿払村</div>
+  </div>
 
-            <div class="topbar">
-                <span class="topbar-title">むらつなぎ</span>
+  <div class="main">
 
-                <div class="village-pill">
-                    <span class="village-dot"></span>
-                    <span>猿払村</span>
-                </div>
-            </div>
-
-            <div class="main">
-
-                <!-- 今日の状況 -->
-                <div class="situation-card">
-
-                    <div class="section-label">
-                        今日の状況
-                    </div>
-
-                    <div class="situation-grid">
-
-                        <div class="sit-item urgent">
-                            <div class="sit-name">田中ハルさん</div>
-                            <div class="sit-detail">内科・受診待ち</div>
-                            <div class="sit-tag tag-urgent">搬送手配が必要</div>
-                        </div>
-
-                        <div class="sit-item">
-                            <div class="sit-name">鈴木さん家族</div>
-                            <div class="sit-detail">処方薬・受け取り</div>
-                            <div class="sit-tag tag-wait">JA配送で対応可</div>
-                        </div>
-
-                        <div class="sit-item">
-                            <div class="sit-name">佐々木さん</div>
-                            <div class="sit-detail">歯の痛み</div>
-                            <div class="sit-tag tag-wait">旭川まで要移動</div>
-                        </div>
-
-                        <div class="sit-item">
-                            <div class="sit-name">定期相談窓口</div>
-                            <div class="sit-detail">保健師対応中</div>
-                            <div class="sit-tag tag-ok">本日14:00〜</div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- 村のリソース -->
-                <div class="resource-card">
-
-                    <div class="section-label">
-                        村のリソース — タップして詳細
-                    </div>
-
-                    <div class="resource-list">
-
-                        <div class="resource-row" id="row-clinic" onclick="showDetail('clinic')">
-                            ...
-                        </div>
-
-                        <div class="resource-row" id="row-ja" onclick="showDetail('ja')">
-                            ...
-                        </div>
-
-                        <div class="resource-row" id="row-pub" onclick="showDetail('pub')">
-                            ...
-                        </div>
-
-                        <div class="resource-row" id="row-transport" onclick="showDetail('transport')">
-                            ...
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <!-- 詳細パネル -->
-                <div class="detail-panel" id="detail-clinic">
-                    ...
-                </div>
-
-                <div class="detail-panel" id="detail-ja">
-                    ...
-                </div>
-
-                <div class="detail-panel" id="detail-pub">
-                    ...
-                </div>
-
-                <div class="detail-panel" id="detail-transport">
-                    ...
-                </div>
-
-                <!-- アクション -->
-                <div class="action-card">
-
-                    <div class="action-title">
-                        すぐに動かす
-                    </div>
-
-                    <div class="action-grid">
-
-                        <button class="action-btn"
-                            onclick="toast('役場・診療所・JA便に状況を共有しました')">
-                            ...
-                        </button>
-
-                        <button class="action-btn"
-                            onclick="toast('今週の巡回スケジュールを表示します')">
-                            ...
-                        </button>
-
-                        <button class="action-btn"
-                            onclick="toast('旭川・稚内の専門外来リストを表示します')">
-                            ...
-                        </button>
-
-                        <button class="action-btn"
-                            onclick="sendPrompt('むらつなぎアプリを過疎地医療向けに実装する場合の技術スタックや行政連携の進め方を詳しく教えて')">
-                            ...
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Bottom Navigation -->
-            <div class="bottom-nav">
-
-                <div class="nav-item active">
-                    <i class="ti ti-home nav-icon"></i>
-                    <span class="nav-label">ホーム</span>
-                </div>
-
-                <div class="nav-item">
-                    <i class="ti ti-users nav-icon"></i>
-                    <span class="nav-label">住民</span>
-                </div>
-
-                <div class="nav-item">
-                    <i class="ti ti-calendar nav-icon"></i>
-                    <span class="nav-label">巡回</span>
-                </div>
-
-                <div class="nav-item">
-                    <i class="ti ti-chart-bar nav-icon"></i>
-                    <span class="nav-label">記録</span>
-                </div>
-
-            </div>
-
+    <div class="screen active" id="s-home">
+      <div class="situation-card">
+        <div class="slabel">今日の状況</div>
+        <div class="situation-grid">
+          <div class="sit-item urgent" data-action="flow" data-person="tanaka">
+            <div class="sit-name">田中ハルさん</div>
+            <div class="sit-detail">胸痛・息切れ</div>
+            <div class="sit-tag tag-urgent">遠隔診療が必要</div>
+          </div>
+          <div class="sit-item" data-action="toast" data-message="鈴木さんの処方薬は14:30のJA便で手配済みです">
+            <div class="sit-name">鈴木さん家族</div>
+            <div class="sit-detail">処方薬・受け取り</div>
+            <div class="sit-tag tag-wait">JA便 14:30</div>
+          </div>
+          <div class="sit-item" data-action="toast" data-message="佐々木さんは歯科受診のため稚内への送迎を予約済みです">
+            <div class="sit-name">佐々木さん</div>
+            <div class="sit-detail">歯の痛み</div>
+            <div class="sit-tag tag-wait">明日 山田運輸</div>
+          </div>
+          <div class="sit-item" data-action="toast" data-message="保健師の定期相談は本日14:00から役場で実施します">
+            <div class="sit-name">定期相談窓口</div>
+            <div class="sit-detail">保健師対応中</div>
+            <div class="sit-tag tag-ok">本日14:00〜</div>
+          </div>
         </div>
+      </div>
 
-        <div class="toast" id="toast"></div>
+      <div class="resource-card">
+        <div class="slabel">村のリソース</div>
+        <div class="resource-list">
+          <div class="resource-row" id="row-clinic" data-action="toggle-detail" data-detail-id="clinic" data-row-id="row-clinic">
+            <div class="res-icon" style="background:#e1f5ee"><i class="ti ti-stethoscope" aria-hidden="true" style="color:#0f6e56"></i></div>
+            <div class="res-body">
+              <div class="res-name">猿払診療所</div>
+              <div class="res-sub">内科・外科 / 月水金</div>
+            </div>
+            <span class="res-status status-on">診療中</span>
+          </div>
+          <div class="detail-panel" id="detail-clinic">
+            <div class="detail-header">
+              <div class="detail-icon" style="background:#e1f5ee"><i class="ti ti-stethoscope" style="color:#0f6e56"></i></div>
+              <div><div class="detail-name">猿払診療所</div><div class="detail-type">内科・外科 / 医院・診療所</div></div>
+            </div>
+            <div class="detail-rows">
+              <div class="detail-row"><span class="detail-key">診療日</span><span class="detail-val">月・水・金 9:00〜17:00</span></div>
+              <div class="detail-row"><span class="detail-key">対応</span><span class="detail-val">内科・外科・救急初期</span></div>
+              <div class="detail-row"><span class="detail-key">今日の空き</span><span class="detail-val">午後 2枠</span></div>
+            </div>
+            <button class="big-btn" data-action="toast" data-message="猿払診療所に予約リクエストを送りました">予約リクエストを送る</button>
+          </div>
 
+          <div class="resource-row" id="row-ja" data-action="toggle-detail" data-detail-id="ja" data-row-id="row-ja">
+            <div class="res-icon" style="background:#eaf3de"><i class="ti ti-truck-delivery" aria-hidden="true" style="color:#3b6d11"></i></div>
+            <div class="res-body">
+              <div class="res-name">JA宗谷中央 配送便</div>
+              <div class="res-sub">薬剤師同乗・週3回</div>
+            </div>
+            <span class="res-status status-on">本日あり</span>
+          </div>
+          <div class="detail-panel" id="detail-ja">
+            <div class="detail-header">
+              <div class="detail-icon" style="background:#eaf3de"><i class="ti ti-truck-delivery" style="color:#3b6d11"></i></div>
+              <div><div class="detail-name">JA宗谷中央 配送便</div><div class="detail-type">処方薬・医療物資の配送</div></div>
+            </div>
+            <div class="detail-rows">
+              <div class="detail-row"><span class="detail-key">運行日</span><span class="detail-val">月・水・金</span></div>
+              <div class="detail-row"><span class="detail-key">同乗者</span><span class="detail-val">登録薬剤師（田端氏）</span></div>
+              <div class="detail-row"><span class="detail-key">今日の到着</span><span class="detail-val">14:30〜16:00 ルートB</span></div>
+            </div>
+            <button class="big-btn" data-action="toast" data-message="JA配送便に配薬リクエストを登録しました">配薬を依頼する</button>
+          </div>
+
+          <div class="resource-row" id="row-pub" data-action="toggle-detail" data-detail-id="pub" data-row-id="row-pub">
+            <div class="res-icon" style="background:#e6f1fb"><i class="ti ti-building-community" aria-hidden="true" style="color:#185fa5"></i></div>
+            <div class="res-body">
+              <div class="res-name">役場 保健師</div>
+              <div class="res-sub">特定行為研修修了</div>
+            </div>
+            <span class="res-status status-busy">窓口中</span>
+          </div>
+          <div class="detail-panel" id="detail-pub">
+            <div class="detail-header">
+              <div class="detail-icon" style="background:#e6f1fb"><i class="ti ti-building-community" style="color:#185fa5"></i></div>
+              <div><div class="detail-name">役場 保健師</div><div class="detail-type">特定行為研修修了看護師</div></div>
+            </div>
+            <div class="detail-rows">
+              <div class="detail-row"><span class="detail-key">担当</span><span class="detail-val">中村さん（歴12年）</span></div>
+              <div class="detail-row"><span class="detail-key">できること</span><span class="detail-val">採血・点滴・処置</span></div>
+              <div class="detail-row"><span class="detail-key">次の空き</span><span class="detail-val">本日 15:00</span></div>
+            </div>
+            <button class="big-btn" data-action="toast" data-message="保健師相談を15:00で仮予約しました">相談を予約する</button>
+          </div>
+
+          <div class="resource-row" id="row-transport" data-action="toggle-detail" data-detail-id="transport" data-row-id="row-transport">
+            <div class="res-icon" style="background:#faeeda"><i class="ti ti-car" aria-hidden="true" style="color:#854f0b"></i></div>
+            <div class="res-body">
+              <div class="res-name">山田運輸 通院送迎</div>
+              <div class="res-sub">福祉輸送・予約制</div>
+            </div>
+            <span class="res-status status-off">要予約</span>
+          </div>
+          <div class="detail-panel" id="detail-transport">
+            <div class="detail-header">
+              <div class="detail-icon" style="background:#faeeda"><i class="ti ti-car" style="color:#854f0b"></i></div>
+              <div><div class="detail-name">山田運輸 通院送迎</div><div class="detail-type">福祉輸送事業（二種免許）</div></div>
+            </div>
+            <div class="detail-rows">
+              <div class="detail-row"><span class="detail-key">対応エリア</span><span class="detail-val">猿払村→稚内・枝幸・旭川</span></div>
+              <div class="detail-row"><span class="detail-key">料金</span><span class="detail-val">補助後 1,200円〜</span></div>
+              <div class="detail-row"><span class="detail-key">次の空き</span><span class="detail-val">明日 8:30出発 1席</span></div>
+            </div>
+            <button class="big-btn" data-action="toast" data-message="山田運輸に送迎リクエストを送りました">送迎を予約する</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-card">
+        <div class="action-title">すぐに動かす</div>
+        <div class="action-grid">
+          <button class="action-btn" data-action="toast" data-message="役場・診療所・JA便に状況を共有しました">
+            <i class="ti ti-alert-triangle action-btn-icon"></i>
+            <span class="action-btn-label">緊急を共有</span>
+            <span class="action-btn-sub">関係者に一斉通知</span>
+          </button>
+          <button class="action-btn" data-action="nav" data-target="priority">
+            <i class="ti ti-list-numbers action-btn-icon"></i>
+            <span class="action-btn-label">搬送優先度</span>
+            <span class="action-btn-sub">今日の待ちを確認</span>
+          </button>
+          <button class="action-btn" data-action="flow" data-person="tanaka">
+            <i class="ti ti-video action-btn-icon"></i>
+            <span class="action-btn-label">遠隔診療を開始</span>
+            <span class="action-btn-sub">田中さんのフロー</span>
+          </button>
+          <button class="action-btn" data-action="toast" data-message="今週の巡回スケジュールを表示します">
+            <i class="ti ti-calendar action-btn-icon"></i>
+            <span class="action-btn-label">巡回日程</span>
+            <span class="action-btn-sub">今週の予定を確認</span>
+          </button>
+        </div>
+      </div>
     </div>
 
-    <script src="/static/js/data.js"></script>
-    <script src="/static/js/app.js"></script>
+    <div class="screen" id="s-flow">
+      <div class="situation-card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+          <button data-action="nav" data-target="home" style="background:none;border:none;cursor:pointer;color:#888780;font-size:13px;padding:0;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-left" style="font-size:16px"></i>ホーム</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="width:40px;height:40px;border-radius:50%;background:#faece7;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:#712b13;flex-shrink:0">田</div>
+          <div>
+            <div style="font-size:15px;font-weight:500;color:#1a1a18">田中ハルさん（78歳）</div>
+            <div style="font-size:12px;color:#888780">胸痛・息切れ — 今日 8:12 登録</div>
+          </div>
+          <span style="margin-left:auto;background:#faece7;color:#712b13;font-size:11px;padding:3px 9px;border-radius:20px">要対応</span>
+        </div>
+        <div class="slabel">対応フロー</div>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="snum done"><i class="ti ti-check" style="font-size:12px"></i></div>
+            <div>
+              <div class="step-title">症状を記録</div>
+              <div class="step-sub">胸の圧迫感・息切れ　8:12に登録済み</div>
+              <span class="step-tag tag-ok">完了</span>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="snum now">2</div>
+            <div style="flex:1">
+              <div class="step-title">遠隔診療 — 稚内病院・循環器科</div>
+              <div class="step-sub">山田医師　本日10:30　ビデオ通話</div>
+              <button class="big-btn" style="margin-top:8px;padding:9px 14px;font-size:12px;border-radius:8px;width:auto" data-action="nav" data-target="call">通話に参加する</button>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="snum wait">3</div>
+            <div>
+              <div class="step-title">処方箋を発行</div>
+              <div class="step-sub">診療後に電子処方箋を稚内薬局へ自動送信</div>
+              <span class="step-tag tag-wait">診療後に解放</span>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="snum wait">4</div>
+            <div>
+              <div class="step-title">薬を手配 — JA便 14:30</div>
+              <div class="step-sub">稚内薬局→JA宗谷便→田中宅</div>
+              <span class="step-tag tag-wait">処方後に解放</span>
+            </div>
+          </div>
+          <div class="flow-step" style="border:none">
+            <div class="snum alert"><i class="ti ti-ambulance" style="font-size:11px"></i></div>
+            <div>
+              <div class="step-title">搬送優先度を確定</div>
+              <div class="step-sub">診療結果により山田運輸・消防に自動通知</div>
+              <span class="step-tag tag-urgent">優先度：高（仮）</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <div class="screen" id="s-call">
+      <div class="situation-card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+          <button data-action="nav" data-target="flow" style="background:none;border:none;cursor:pointer;color:#888780;font-size:13px;padding:0;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-left" style="font-size:16px"></i>フロー</button>
+        </div>
+        <div class="doc-bar">
+          <div class="doc-av">山</div>
+          <div><div class="doc-name">山田 誠一 医師</div><div class="doc-spec">稚内病院 循環器内科</div></div>
+          <div class="live-badge"><span style="width:6px;height:6px;border-radius:50%;background:#4db87a;display:inline-block"></span>接続中</div>
+        </div>
+        <div class="video-mock">
+          <i class="ti ti-video" style="font-size:32px;color:#4a4a48" aria-hidden="true"></i>
+          <span style="font-size:12px;color:#888780">カメラ映像（デモ）</span>
+        </div>
+        <div class="call-controls">
+          <button class="ctrl-btn ctrl-mute" aria-label="ミュート"><i class="ti ti-microphone-off"></i></button>
+          <button class="ctrl-btn ctrl-end" aria-label="終話" data-action="end-call"><i class="ti ti-phone-off"></i></button>
+          <button class="ctrl-btn ctrl-cam" aria-label="カメラオフ"><i class="ti ti-camera-off"></i></button>
+        </div>
+        <div class="divider"></div>
+        <div style="background:#f7f5f0;border-radius:10px;padding:12px;margin-top:10px">
+          <div class="slabel" style="margin-bottom:6px">診療メモ（医師入力）</div>
+          <div style="font-size:13px;color:#1a1a18;line-height:1.6">胸部X線・心電図の結果を確認中。狭心症の疑い。ニトログリセリン処方を検討。搬送の必要性を診療後に判断。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="s-rx">
+      <div class="situation-card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+          <button data-action="nav" data-target="flow" style="background:none;border:none;cursor:pointer;color:#888780;font-size:13px;padding:0;display:flex;align-items:center;gap:4px"><i class="ti ti-arrow-left" style="font-size:16px"></i>フロー</button>
+        </div>
+        <div style="background:#eaf3de;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+          <i class="ti ti-circle-check" style="color:#27500a;font-size:16px" aria-hidden="true"></i>
+          <span style="font-size:13px;color:#27500a;font-weight:500">処方箋を稚内薬局に送信しました</span>
+        </div>
+        <div class="slabel">処方内容 — 田中ハルさん</div>
+        <div class="rx-block">
+          <div class="rx-name">ニトログリセリン錠 0.3mg</div>
+          <div class="rx-detail">舌下錠 / 胸痛発作時 1錠 / 14日分</div>
+          <div class="rx-route">
+            <span class="rnode">稚内薬局</span>
+            <span class="rarrow">→</span>
+            <span class="rnode">JA宗谷便 14:30</span>
+            <span class="rarrow">→</span>
+            <span class="rnode">田中宅</span>
+          </div>
+        </div>
+        <div class="rx-block">
+          <div class="rx-name">アスピリン腸溶錠 100mg</div>
+          <div class="rx-detail">1日1回 食後 / 30日分</div>
+          <div class="rx-route">
+            <span class="rnode">稚内薬局</span>
+            <span class="rarrow">→</span>
+            <span class="rnode">JA宗谷便 14:30</span>
+            <span class="rarrow">→</span>
+            <span class="rnode">田中宅</span>
+          </div>
+        </div>
+        <div class="divider" style="margin:10px 0"></div>
+        <div class="slabel">搬送優先度</div>
+        <div class="pcard ph">
+          <div class="plabel">優先度 HIGH — 要注視</div>
+          <div class="pname">田中ハルさん</div>
+          <div class="pdetail">狭心症の疑い。投薬後も症状が続く場合は翌朝搬送。</div>
+          <div class="pmeta">
+            <span class="ptag pt-red"><i class="ti ti-ambulance" style="font-size:10px"></i> 山田運輸に通知済み</span>
+            <span class="ptag pt-red"><i class="ti ti-building-hospital" style="font-size:10px"></i> 稚内病院に共有済み</span>
+          </div>
+        </div>
+        <button class="big-btn" data-action="nav" data-target="priority">搬送優先度リストを確認</button>
+        <button class="big-btn sec" data-action="toast" data-message="搬送を今日に前倒しで手配しました">今日の搬送に前倒す</button>
+      </div>
+    </div>
+
+    <div class="screen" id="s-priority">
+      <div class="situation-card">
+        <div class="slabel" style="margin-bottom:12px">今日の搬送待ち — リソース3件 / 要請4件</div>
+        <div class="pcard ph">
+          <div class="plabel">優先度 HIGH</div>
+          <div class="pname">田中ハルさん（78歳）</div>
+          <div class="pdetail">胸痛・狭心症疑い — 山田医師が本日診療</div>
+          <div class="pmeta">
+            <span class="ptag pt-red">今日14:30 薬待ち</span>
+            <span class="ptag pt-amber">明朝搬送を予約</span>
+          </div>
+        </div>
+        <div class="pcard pm">
+          <div class="plabel">優先度 MED</div>
+          <div class="pname">鈴木さん（65歳）</div>
+          <div class="pdetail">整形外科受診 — 膝の痛みが2週間継続</div>
+          <div class="pmeta">
+            <span class="ptag pt-amber">明後日 山田運輸 1席あり</span>
+          </div>
+        </div>
+        <div class="pcard pl">
+          <div class="plabel">優先度 LOW</div>
+          <div class="pname">佐々木さん（52歳）</div>
+          <div class="pdetail">定期検診 — 高血圧の経過観察</div>
+          <div class="pmeta">
+            <span class="ptag pt-green">来週 JA便同行で対応</span>
+          </div>
+        </div>
+      </div>
+      <div class="resource-card">
+        <div class="slabel">今週の搬送リソース</div>
+        <div class="res-row-sm">
+          <span style="color:#1a1a18">山田運輸</span>
+          <span style="color:#888780;font-size:12px">月水金 — 残1席</span>
+        </div>
+        <div class="res-row-sm">
+          <span style="color:#1a1a18">JA宗谷便</span>
+          <span style="color:#888780;font-size:12px">月水金 — 薬剤師同乗</span>
+        </div>
+        <div class="res-row-sm warn">
+          <span style="color:#712b13">消防署</span>
+          <span style="color:#993c1d;font-size:12px">緊急のみ — 予備枠確保済み</span>
+        </div>
+        <button class="big-btn" style="margin-top:10px" data-action="toast" data-message="搬送リソースの最新状況を更新しました">リソースを更新</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-item active" id="nav-home" data-action="nav" data-target="home">
+      <i class="ti ti-home nav-icon"></i>
+      <span class="nav-label">ホーム</span>
+    </div>
+    <div class="nav-item" id="nav-flow" data-action="flow" data-person="tanaka">
+      <div class="badge">
+        <i class="ti ti-route nav-icon"></i>
+        <span class="badge-dot"></span>
+      </div>
+      <span class="nav-label">フロー</span>
+    </div>
+    <div class="nav-item" id="nav-call" data-action="nav" data-target="call">
+      <i class="ti ti-video nav-icon"></i>
+      <span class="nav-label">診療</span>
+    </div>
+    <div class="nav-item" id="nav-priority" data-action="nav" data-target="priority">
+      <i class="ti ti-list-numbers nav-icon"></i>
+      <span class="nav-label">優先度</span>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast-el"></div>
+</div>
 </body>
-
 </html>
