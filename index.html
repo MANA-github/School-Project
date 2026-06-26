@@ -5,23 +5,180 @@
     <meta charset="UTF-8">
     <title>むらつなぎ</title>
 
-    <link rel="stylesheet" href="/static/">
+    <link rel="stylesheet" href="/static/css/style.css">
 
     <!-- Tabler Icons -->
     <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+        href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 </head>
 
 <body>
 
-<div class="wrapper">
+    <div class="wrapper">
+        <div class="app">
 
-    <!-- 今のHTMLそのまま -->
+            <div class="topbar">
+                <span class="topbar-title">むらつなぎ</span>
 
-</div>
+                <div class="village-pill">
+                    <span class="village-dot"></span>
+                    <span>猿払村</span>
+                </div>
+            </div>
 
-<script src="/static/js/app.js"></script>
-<script src="/static/js/data.js"></script>
+            <div class="main">
+
+                <!-- 今日の状況 -->
+                <div class="situation-card">
+
+                    <div class="section-label">
+                        今日の状況
+                    </div>
+
+                    <div class="situation-grid">
+
+                        <div class="sit-item urgent">
+                            <div class="sit-name">田中ハルさん</div>
+                            <div class="sit-detail">内科・受診待ち</div>
+                            <div class="sit-tag tag-urgent">搬送手配が必要</div>
+                        </div>
+
+                        <div class="sit-item">
+                            <div class="sit-name">鈴木さん家族</div>
+                            <div class="sit-detail">処方薬・受け取り</div>
+                            <div class="sit-tag tag-wait">JA配送で対応可</div>
+                        </div>
+
+                        <div class="sit-item">
+                            <div class="sit-name">佐々木さん</div>
+                            <div class="sit-detail">歯の痛み</div>
+                            <div class="sit-tag tag-wait">旭川まで要移動</div>
+                        </div>
+
+                        <div class="sit-item">
+                            <div class="sit-name">定期相談窓口</div>
+                            <div class="sit-detail">保健師対応中</div>
+                            <div class="sit-tag tag-ok">本日14:00〜</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- 村のリソース -->
+                <div class="resource-card">
+
+                    <div class="section-label">
+                        村のリソース — タップして詳細
+                    </div>
+
+                    <div class="resource-list">
+
+                        <div class="resource-row" id="row-clinic" onclick="showDetail('clinic')">
+                            ...
+                        </div>
+
+                        <div class="resource-row" id="row-ja" onclick="showDetail('ja')">
+                            ...
+                        </div>
+
+                        <div class="resource-row" id="row-pub" onclick="showDetail('pub')">
+                            ...
+                        </div>
+
+                        <div class="resource-row" id="row-transport" onclick="showDetail('transport')">
+                            ...
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- 詳細パネル -->
+                <div class="detail-panel" id="detail-clinic">
+                    ...
+                </div>
+
+                <div class="detail-panel" id="detail-ja">
+                    ...
+                </div>
+
+                <div class="detail-panel" id="detail-pub">
+                    ...
+                </div>
+
+                <div class="detail-panel" id="detail-transport">
+                    ...
+                </div>
+
+                <!-- アクション -->
+                <div class="action-card">
+
+                    <div class="action-title">
+                        すぐに動かす
+                    </div>
+
+                    <div class="action-grid">
+
+                        <button class="action-btn"
+                            onclick="toast('役場・診療所・JA便に状況を共有しました')">
+                            ...
+                        </button>
+
+                        <button class="action-btn"
+                            onclick="toast('今週の巡回スケジュールを表示します')">
+                            ...
+                        </button>
+
+                        <button class="action-btn"
+                            onclick="toast('旭川・稚内の専門外来リストを表示します')">
+                            ...
+                        </button>
+
+                        <button class="action-btn"
+                            onclick="sendPrompt('むらつなぎアプリを過疎地医療向けに実装する場合の技術スタックや行政連携の進め方を詳しく教えて')">
+                            ...
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="bottom-nav">
+
+                <div class="nav-item active">
+                    <i class="ti ti-home nav-icon"></i>
+                    <span class="nav-label">ホーム</span>
+                </div>
+
+                <div class="nav-item">
+                    <i class="ti ti-users nav-icon"></i>
+                    <span class="nav-label">住民</span>
+                </div>
+
+                <div class="nav-item">
+                    <i class="ti ti-calendar nav-icon"></i>
+                    <span class="nav-label">巡回</span>
+                </div>
+
+                <div class="nav-item">
+                    <i class="ti ti-chart-bar nav-icon"></i>
+                    <span class="nav-label">記録</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="toast" id="toast"></div>
+
+    </div>
+
+    <script src="/static/js/data.js"></script>
+    <script src="/static/js/app.js"></script>
 
 </body>
+
 </html>
